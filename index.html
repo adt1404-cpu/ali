@@ -4,18 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>اطلس سه‌بعدی نیشابور</title>
+<title>اطلس نیشابور</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
 html,body{
 margin:0;
+padding:0;
 height:100%;
 font-family:tahoma;
 }
 
 #map{
+width:100%;
 height:100%;
 }
 
@@ -23,12 +25,12 @@ height:100%;
 position:absolute;
 top:10px;
 right:10px;
-z-index:999;
+z-index:1000;
 background:white;
 padding:10px;
 border-radius:10px;
-box-shadow:0 0 10px gray;
 font-weight:bold;
+box-shadow:0 0 8px #888;
 }
 </style>
 
@@ -46,62 +48,49 @@ font-weight:bold;
 
 <script>
 
-var osm = L.tileLayer(
+var osm=L.tileLayer(
 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 {
 maxZoom:19,
 attribution:'© OpenStreetMap'
 });
 
-var satellite = L.tileLayer(
+var satellite=L.tileLayer(
 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
 {
 maxZoom:19,
-attribution:'© Esri'
+attribution:'Tiles © Esri'
 });
 
-var map = L.map('map',{
+var map=L.map('map',{
 center:[36.2133,58.7958],
 zoom:11,
 layers:[osm]
 });
 
-var baseMaps={
+L.control.layers({
 "نقشه":osm,
 "ماهواره":satellite
-};
-
-L.control.layers(baseMaps).addTo(map);
+}).addTo(map);
 
 L.control.scale().addTo(map);
 
 L.marker([36.2133,58.7958])
 .addTo(map)
-.bindPopup("<b>نیشابور</b><br>مرکز شهرستان")
+.bindPopup("<b>نیشابور</b>")
 .openPopup();
 
-map.on('click',function(e){
+map.on("click",function(e){
+
 L.popup()
 .setLatLng(e.latlng)
 .setContent(
-"مختصات:<br>"+e.latlng.lat.toFixed(5)+
-"<br>"+e.latlng.lng.toFixed(5)
+"عرض: "+e.latlng.lat.toFixed(5)+"<br>"+
+"طول: "+e.latlng.lng.toFixed(5)
 )
 .openOn(map);
+
 });
-
-</script>
-
-var map=L.map('map').setView([36.2133,58.7958],11);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-maxZoom:19
-}).addTo(map);
-
-L.marker([36.2133,58.7958])
-.addTo(map)
-.bindPopup("شهر نیشابور")
-.openPopup();
 
 </script>
 
